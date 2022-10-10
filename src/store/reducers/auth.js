@@ -1,22 +1,42 @@
+import { defaultObj } from '../constants';
 import { handleData } from '../middlewares/handleData';
 import Types from '../types/auth';
 
 const initialState = {
-  user: null,
+  login: {
+    ...defaultObj,
+  },
 };
 
 const AuthReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case Types.SET_USER_DATA:
+    case Types.LOGIN:
       return handleData(state, action, {
-        request: (prevState) => ({ ...prevState }),
+        request: (prevState) => ({
+          ...prevState,
+          login: {
+            ...prevState.login,
+            loading: true,
+          },
+        }),
         success: (prevState) => ({
           ...prevState,
-          user: payload.user,
+          login: {
+            loading: false,
+            data: payload,
+            error: '',
+          },
         }),
-        failure: (prevState) => ({ ...prevState }),
+        failure: (prevState) => ({
+          ...prevState,
+          login: {
+            loading: false,
+            data: {},
+            error: payload,
+          },
+        }),
       });
     case Types.LOG_OUT_USER: {
       return {

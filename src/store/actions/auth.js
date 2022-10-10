@@ -1,16 +1,21 @@
+import { apiLogin } from 'src/api';
 import Types from '../types/auth';
 
-export const setUser = (user) => (dispatch) => {
-  dispatch({
-    payload: user,
-    type: Types.SET_USER_DATA,
+export const login = (data, cb) => {
+  return {
+    isAsyncCall: true,
+    payload: {},
+    type: Types.LOGIN,
     asyncCall: () => {
-      return new Promise((resolve) => {
-        resolve({ status: 1, user });
-      });
+      return apiLogin(data);
     },
-    onSuccess: () => {},
-  });
+    afterSuccessCall: (_dispatch, response) => {
+      if (cb) cb(response);
+    },
+    afterFailureCall: (_dispatch, err) => {
+      if (cb) cb(false, err);
+    },
+  };
 };
 
 export const logOutUser = () => (dispatch) => {
