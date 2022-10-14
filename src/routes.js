@@ -1,3 +1,4 @@
+import Login from 'src/pages/Auth/Login';
 import Dashboard from 'src/pages/Dashboard';
 import Home from 'src/pages/Home';
 
@@ -6,15 +7,19 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    isPrivate: false,
     layout: 'public',
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    isPrivate: false,
-    layout: 'public',
+    layout: 'private',
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    layout: 'auth',
   },
 ];
 
